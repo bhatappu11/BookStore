@@ -8,13 +8,23 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
 import { useForm, Controller } from "react-hook-form";
-
+import UserService from '../../services/UserService';
+const userService = new UserService();
 
 function SignUp() {
-  const { handleSubmit,control } = useForm();
-  const onSubmit = data => {
-    console.log(data);
-  };
+      
+      const { handleSubmit,control } = useForm();
+      const onSubmit = data => {
+          console.log(data);
+          console.log("validation successful");
+                userService.SignUp("/registration",data)
+                .then(()=>{
+                    console.log("successfully registered");
+                })
+                .catch((err)=>{
+                    console.log(err);
+                });
+        };
   const [passwordShown, setPasswordShown] = useState(false);
       const togglePassword = () => {
         setPasswordShown(!passwordShown);
@@ -81,7 +91,7 @@ function SignUp() {
                  rules={{ required: 'Password required' }}
                />
               <Controller
-                      name="mobile"
+                      name="phone"
                       control={control}
                       defaultValue=""
                       render={({ field: { onChange, value }, fieldState: { error } }) => (
