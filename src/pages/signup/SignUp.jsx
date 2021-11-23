@@ -1,72 +1,101 @@
-import React from 'react'
-import { styled } from '@mui/material/styles';
+import React,{useState} from 'react'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
-import Input from '@mui/material/Input';
-import FilledInput from '@mui/material/FilledInput';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
-import FormHelperText from '@mui/material/FormHelperText';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
+import { useForm, Controller } from "react-hook-form";
+
 
 function SignUp() {
-    const [values, setValues] = React.useState({
-        amount: '',
-        password: '',
-        weight: '',
-        weightRange: '',
-        showPassword: false,
-      });
-    const handleChange = (prop) => (event) => {
-        setValues({ ...values, [prop]: event.target.value });
-      };
-    
-      const handleClickShowPassword = () => {
-        setValues({
-          ...values,
-          showPassword: !values.showPassword,
-        });
-      };
-    
-      const handleMouseDownPassword = (event) => {
-        event.preventDefault();
+  const { handleSubmit,control } = useForm();
+  const onSubmit = data => {
+    console.log(data);
+  };
+  const [passwordShown, setPasswordShown] = useState(false);
+      const togglePassword = () => {
+        setPasswordShown(!passwordShown);
       };
     return (
         <div>
             <Box sx={{margin: '28px'}}>
-                <TextField size="small" fullWidth id="outlined-basic" label="Full Name" variant="outlined" />
-                <TextField size="small" fullWidth id="outlined-basic" label="Email Id" variant="outlined" sx={{marginTop: 3}} />
-                <FormControl size="small" fullWidth variant="outlined" sx={{marginTop: 3}}>
-                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                    <OutlinedInput
+            <form onSubmit={handleSubmit(onSubmit)}>
+            <Controller
+                    name="fullName"
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { onChange, value },fieldState: { error } }) => (
+                      <TextField size="small" fullWidth id="outlined-basic" label="Full Name" variant="outlined" value={value}
+                      onChange={onChange} 
+                      error={!!error}
+                      helperText={error ? error.message : null} />
+                  )}
+                  rules={{ required: 'Enter full name' }}
+            />
+            <Controller
+                    name="email"
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { onChange, value }, fieldState: { error } }) => (
+                <TextField size="small" fullWidth id="outlined-basic" label="Email Id" variant="outlined" sx={{marginTop: 2}}
+                value={value}
+                      onChange={onChange} 
+                error={!!error}
+            helperText={error ? error.message : null}
+            type="email" />
+                )}
+                  rules={{ required: 'Enter valid email' }}
+            />
+            <Controller
+                name="password"
+                control={control}
+                defaultValue=""
+                render={({ field: { onChange, value }, fieldState: { error } }) => (
+                <FormControl size="small" fullWidth variant="outlined" sx={{marginTop: 2}}>
+                    <TextField
                         fullWidth
-                        id="outlined-adornment-password"
-                        type={values.showPassword ? 'text' : 'password'}
-                        value={values.password}
-                        onChange={handleChange('password')}
-                        endAdornment={
+                        label="Password"
+                        type={passwordShown ? "text" : "password"}
+                        value={value}
+                        onChange={onChange}
+                        error={!!error}
+                        helperText={error ? error.message : null}         
+                        InputProps={{
+                        endAdornment: (
                         <InputAdornment position="end">
                             <IconButton
                             aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
+                            onClick={togglePassword}
                             edge="end"
                             >
-                            {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                            {passwordShown ? <VisibilityOff /> : <Visibility />}
                             </IconButton>
                         </InputAdornment>
-                        }
-                        label="Password"
+                        ),}}
                     />
                 </FormControl>
-                <TextField size="small" fullWidth id="outlined-basic" label="Mobile Number" variant="outlined" sx={{marginTop: 3}} />
-                <Button fullWidth variant="contained" style={{textTransform: 'none',background: "#A03037 0% 0% no-repeat padding-box",marginTop: 15}}>Signup</Button>
+                 )}
+                 rules={{ required: 'Password required' }}
+               />
+              <Controller
+                      name="mobile"
+                      control={control}
+                      defaultValue=""
+                      render={({ field: { onChange, value }, fieldState: { error } }) => (
+                <TextField size="small" fullWidth id="outlined-basic" label="Mobile Number" variant="outlined" sx={{marginTop: 2}} 
+                      value={value}
+                      onChange={onChange} 
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                      />
+                )}
+                rules={{ required: 'enter valid number', pattern: /^([1-9][0-9])?[0-9]{10}$/ }}
+              />
+                <Button fullWidth type="submit" variant="contained" style={{textTransform: 'none',background: "#A03037 0% 0% no-repeat padding-box",marginTop: 10}}>Signup</Button>
+                </form>
             </Box>
         </div>
     )
