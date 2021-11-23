@@ -69,10 +69,13 @@ function Account() {
                     </StyledTabs>                    
                 </Box>
                 <Box sx={{p:2}}>
-                        { value == 0 ?
-                            <Login />
+                        { value == 0 ? (
+                            window.history.pushState('', 'Login', '/login'),
+                            <Login />)
                         :
-                            <SignUp />
+                        (
+                          window.history.pushState('', 'SignUp', '/signup'),
+                            <SignUp />)
                         }
                     </Box>
             </Box>
