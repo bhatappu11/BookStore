@@ -10,6 +10,9 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import { useForm, Controller } from "react-hook-form";
+import UserService from '../../services/UserService';
+
+const userService = new UserService();
 
 const Root = styled('div')(({ theme }) => ({
     marginLeft: 80,
@@ -26,6 +29,19 @@ function Login() {
   
       const onSubmit = data => {
             console.log(data);
+            console.log("validation successful");
+            userService.SignIn("/login",data)
+            .then((res)=>{
+                console.log(res);
+                console.log("Login successful");
+                // auth.login(()=>{
+                //     this.props.history.push("/dashboard");
+                // })
+                
+            })
+            .catch((err)=>{
+                console.log(err);
+            });
       
         };
 
