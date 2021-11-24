@@ -18,11 +18,6 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 const userService = new UserService();
-const Item = styled(Paper)(({ theme }) => ({
-    ...theme.typography.body2,
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  })); 
   const theme = createTheme({
       palette: {
           myColor:{
@@ -117,7 +112,6 @@ function Dashboard() {
                     {
                     currentBooks.map((book)=>(
                         <Grid item xs={6} sm={3} md={2} >
-                        <Item>
                             <div className="all-books">
                             <Box  sx={{display:'flex', flexDirection:'column',backgroundColor: '#F5F5F5'}}>                        
                                 <div className="alchemist">
@@ -134,7 +128,6 @@ function Dashboard() {
                                 </div>
                             </Box>
                             </div>
-                        </Item>
                         </Grid>
                     ))}
                 </Grid>
