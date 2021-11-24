@@ -1,8 +1,7 @@
 import './App.css';
 import Account from './pages/account/Account';
 import {BrowserRouter as Router,Routes, Route} from 'react-router-dom';
-import Login from './pages/login/Login';
-import SignUp from './pages/signup/SignUp';
+import Dashboard from './pages/dashboard/Dashboard';
 // import 
 
 function App() {
@@ -11,6 +10,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route exact path="/" element={<Account />}></Route>
+        <Route exact path="/dashboard" element={<Dashboard />}></Route>
       </Routes>
     </div>
     </Router>
