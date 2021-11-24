@@ -11,8 +11,10 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import { useForm, Controller } from "react-hook-form";
 import UserService from '../../services/UserService';
+import { useNavigate } from 'react-router';
 
 const userService = new UserService();
+
 
 const Root = styled('div')(({ theme }) => ({
     marginLeft: 80,
@@ -25,6 +27,7 @@ const Root = styled('div')(({ theme }) => ({
   
 
 function Login() {
+    const navigate = useNavigate();
       const { handleSubmit,control } = useForm();
   
       const onSubmit = data => {
@@ -34,10 +37,8 @@ function Login() {
             .then((res)=>{
                 console.log(res);
                 console.log("Login successful");
-                // auth.login(()=>{
-                //     this.props.history.push("/dashboard");
-                // })
-                
+                localStorage.setItem("token",res.data.result.accessToken);
+                navigate('/dashboard');                
             })
             .catch((err)=>{
                 console.log(err);
