@@ -10,6 +10,9 @@ class UserService {
     SignIn(url,data){
         return axiosService.postMethod(`${baseurl}${url}`,data);
     }
+    displayBooks(url,config){
+        return axiosService.getMethod(`${baseurl}${url}`,config);    
+    }
 }
 
 export default UserService
