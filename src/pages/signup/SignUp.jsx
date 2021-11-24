@@ -33,7 +33,7 @@ function SignUp() {
       };
     return (
         <div>
-            <Box sx={{margin: '28px'}}>
+            <Box sx={{margin: '28px',minHeight: '340px'}}>
             <form onSubmit={handleSubmit(onSubmit)}>
             <Controller
                     name="fullName"
@@ -43,7 +43,7 @@ function SignUp() {
                       <TextField size="small" fullWidth id="outlined-basic" label="Full Name" variant="outlined" value={value}
                       onChange={onChange} 
                       error={!!error}
-                      helperText={error ? error.message : null} />
+                      helperText={error ? error.message : ' '} />
                   )}
                   rules={{ required: 'Enter full name' }}
             />
@@ -52,11 +52,11 @@ function SignUp() {
                     control={control}
                     defaultValue=""
                     render={({ field: { onChange, value }, fieldState: { error } }) => (
-                <TextField size="small" fullWidth id="outlined-basic" label="Email Id" variant="outlined" sx={{marginTop: 2}}
+                <TextField size="small" fullWidth id="outlined-basic" label="Email Id" variant="outlined" 
                 value={value}
                       onChange={onChange} 
                 error={!!error}
-            helperText={error ? error.message : null}
+            helperText={error ? error.message : ' '}
             type="email" />
                 )}
                   rules={{ required: 'Enter valid email' }}
@@ -66,7 +66,7 @@ function SignUp() {
                 control={control}
                 defaultValue=""
                 render={({ field: { onChange, value }, fieldState: { error } }) => (
-                <FormControl size="small" fullWidth variant="outlined" sx={{marginTop: 2}}>
+                <FormControl size="small" fullWidth variant="outlined" >
                     <TextField
                         fullWidth
                         label="Password"
@@ -74,7 +74,7 @@ function SignUp() {
                         value={value}
                         onChange={onChange}
                         error={!!error}
-                        helperText={error ? error.message : null}         
+                        helperText={error ? error.message : ' '}         
                         InputProps={{
                         endAdornment: (
                         <InputAdornment position="end">
@@ -97,11 +97,11 @@ function SignUp() {
                       control={control}
                       defaultValue=""
                       render={({ field: { onChange, value }, fieldState: { error } }) => (
-                <TextField size="small" fullWidth id="outlined-basic" label="Mobile Number" variant="outlined" sx={{marginTop: 2}} 
+                <TextField size="small" fullWidth id="outlined-basic" label="Mobile Number" variant="outlined"
                       value={value}
                       onChange={onChange} 
                       error={!!error}
-                      helperText={error ? error.message : null}
+                      helperText={error ? error.message : ' '}
                       />
                 )}
                 rules={{ required: 'enter valid number', pattern: /^([1-9][0-9])?[0-9]{10}$/ }}

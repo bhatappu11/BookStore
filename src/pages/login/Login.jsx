@@ -52,7 +52,7 @@ function Login() {
       };
     return (
         <div>
-            <Box sx={{margin: '25px'}}>
+            <Box sx={{margin: '28px',minHeight: '340px'}}>
               <form onSubmit={handleSubmit(onSubmit)}>
             <Controller
                     name="email"
@@ -63,7 +63,7 @@ function Login() {
                 value={value}
                       onChange={onChange} 
                 error={!!error}
-            helperText={error ? error.message : null}
+            helperText={error ? error.message : ' '}
             type="email"/>
             )}
                   rules={{ required: 'Enter valid email' }}
@@ -73,7 +73,7 @@ function Login() {
                 control={control}
                 defaultValue=""
                 render={({ field: { onChange, value }, fieldState: { error } }) => (
-                <FormControl size="small" fullWidth variant="outlined" sx={{marginTop: 2}}>
+                <FormControl size="small" fullWidth variant="outlined">
                     <TextField
                         fullWidth
                         label="Password"
@@ -81,7 +81,7 @@ function Login() {
                         value={value}
                         onChange={onChange}
                         error={!!error}
-                        helperText={error ? error.message : null}         
+                        helperText={error ? error.message : ' '}         
                         InputProps={{
                         endAdornment: (
                         <InputAdornment position="end">
