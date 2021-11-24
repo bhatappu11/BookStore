@@ -9,10 +9,11 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
 import { useForm, Controller } from "react-hook-form";
 import UserService from '../../services/UserService';
+import { useNavigate } from 'react-router';
 const userService = new UserService();
 
 function SignUp() {
-      
+        const navigate = useNavigate();
       const { handleSubmit,control } = useForm();
       const onSubmit = data => {
           console.log(data);
@@ -20,6 +21,7 @@ function SignUp() {
                 userService.SignUp("/registration",data)
                 .then(()=>{
                     console.log("successfully registered");
+                    navigate('/')
                 })
                 .catch((err)=>{
                     console.log(err);
