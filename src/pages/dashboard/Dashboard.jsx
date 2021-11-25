@@ -6,8 +6,6 @@ import MenuItem from '@mui/material/MenuItem';
 import './Dashboard.scss'
 import UserService from '../../services/UserService';
 import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import { experimentalStyled as styled } from '@mui/material/styles';
 import bookimage from '../../assets/Image 12@2x.png'
 import { Button, createTheme, IconButton, PaginationItem } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -16,6 +14,8 @@ import Pagination from '@mui/material/Pagination';
 import { ThemeProvider } from '@emotion/react';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { useDispatch ,useSelector} from 'react-redux'
+import { addCartItems, getCartItems } from '../../store/actions/cartActions';
 
 const userService = new UserService();
   const theme = createTheme({
@@ -42,9 +42,15 @@ function Dashboard() {
     const [books, setBooks] = useState([]);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-
+    const [bookAdded, setBookAdded] =  useState([]);
+    const dispatch = useDispatch();
+    const items = useSelector(state=>state);
+    
+    async function getCart()  {
+        dispatch(getCartItems());
+     }
     const [page, setPage] = React.useState(1);
-    const [booksPerPage, setBooksPerPage] = useState(12);
+    const [booksPerPage, setBooksPerPage] = useState(8);
 
     const handlePageChange = (event, value) => {
         setPage(value);
@@ -59,6 +65,25 @@ function Dashboard() {
     };
     const handleClose = () => {
         setAnchorEl(null);
+    };    
+     const dynamicButton = (book) => {
+        if (items.items.items.includes(book._id)) {
+          return (              
+            <Button fullWidth variant="contained" sx={{marginTop: '12px'}}> ADDED TO BAG </Button>
+          )
+        }
+        else {
+          return (
+            <div className="add-buttons">
+                <Button fullWidth onClick={()=>handleAddToBag(book)} style={{border: '1px solid',backgroundColor: '#A03037',color: '#f1f1f1',cursor: 'pointer',marginRight: '10px'}}>ADD TO BAG</Button>
+                <Button fullWidth style={{border: '1px solid',backgroundColor: '#ffffff',color: '#000000',cursor: 'pointer'}}>WISHLIST</Button>
+            </div>)
+        }
+    
+      }
+ 
+    const handleAddToBag = (book) => {
+        dispatch(addCartItems(book,getCart));
     };
             
     const displayBooks = () => {
@@ -69,7 +94,6 @@ function Dashboard() {
         };
         userService.displayBooks("/get/book",config)
         .then((res)=>{
-            console.log(res.data.result);
             setBooks(res.data.result);
             console.log("Books displayed");
         })
@@ -78,14 +102,18 @@ function Dashboard() {
         });
     }
     React.useEffect(()=>{
+        getCart();
+    },[])
+
+    React.useEffect(()=>{
         displayBooks();
-   },[]);
+   },[items]);
   
     return (
         <div>
             <Header />
-            <Box sx={{marginLeft: '10%',marginRight: '10%',minHeight: '90vh'}}>
-                <Box sx={{display: 'flex',justifyContent: 'space-between',marginTop: '1%'}}>
+            <Box sx={{marginLeft: '15%',marginRight: '15%',minHeight: '90vh'}}>
+                <Box sx={{display: 'flex',justifyContent: 'space-between',marginTop: '2%',marginBottom: '2%'}}>
                     <p className="books">Books <span style={{color: 'grey',fontSize: '18px'}}>({books.length})</span></p>
                     <div>
                     <Button
@@ -102,18 +130,19 @@ function Dashboard() {
                         >
                             <MenuItem value={10}>Price: Low to High</MenuItem>
                             <MenuItem value={20}>Price: High to Low</MenuItem>
-                            <MenuItem value={30}>Newest Arrivals</MenuItem>
+                            <MenuItem value={30}>A - Z</MenuItem>
+                            <MenuItem value={40}>Z - A</MenuItem>
                                             
                         </Menu>
                     </div>
                 </Box>
                 <Box>
-                <Grid container spacing={{ xs: 1, md: 3 }} columns={{ xs: 4, sm: 6, md: 8 }}>
+                <Grid container spacing={{ xs: 2, md: 4 }} columns={{ xs: 4, sm: 6, md: 8 }}>
                     {
                     currentBooks.map((book)=>(
                         <Grid item xs={6} sm={3} md={2} >
                             <div className="all-books">
-                            <Box  sx={{display:'flex', flexDirection:'column',backgroundColor: '#F5F5F5'}}>                        
+                            <Box  sx={{display:'flex', flexDirection:'column',backgroundColor: '#F5F5F5',minHeight: '320px'}}>                        
                                 <div className="alchemist">
                                     <img src={bookimage} />
                                 </div>  
@@ -121,9 +150,8 @@ function Dashboard() {
                                     <div className="book-title">{book.bookName}</div>
                                     <div className="book-author">by {book.author}</div>
                                     <div className="book-price">Rs {book.price}</div>                                
-                                <div className="add-buttons">
-                                    <Button fullWidth style={{border: '1px solid',backgroundColor: '#A03037',color: '#f1f1f1',cursor: 'pointer',marginRight: '10px'}}>ADD TO BAG</Button>
-                                    <Button fullWidth style={{border: '1px solid',backgroundColor: '#ffffff',color: '#000000',cursor: 'pointer'}}>WISHLIST</Button>
+                                <div>
+                                    {dynamicButton(book)}
                                 </div>
                                 </div>
                             </Box>
@@ -149,5 +177,6 @@ function Dashboard() {
         </div>
     )
 }
+
 
 export default Dashboard
