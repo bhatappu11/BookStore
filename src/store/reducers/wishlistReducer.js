@@ -10,7 +10,7 @@ export default function(state = initialState, action){
 
         case WISHLIST_ITEMS:
         return {
-            items:action.payload,
+            wishlist:action.payload,
         }
         default: return state
     }
