@@ -1,4 +1,4 @@
-import {CART_ITEMS,CART_ERROR, ADD_TO_CART,ADD_TO_CART_ERROR} from '../type'
+import {CART_ITEMS,CART_ERROR, ADD_TO_CART,ADD_TO_CART_ERROR,WISHLIST_ITEMS,WISHLIST_ERROR} from '../type'
 import axios from 'axios'
 import UserService from '../../services/UserService'
 const userService = new UserService();
@@ -16,8 +16,6 @@ export const getCartItems = () => async dispatch => {
         res.data.result.map(book => {
             bookIds.push(book.product_id._id)
         })
-        // console.log(bookIds);
-        // res.items.items.result.map
         dispatch( {
             type: CART_ITEMS,
             payload: bookIds
@@ -54,4 +52,28 @@ export const addCartItems = (book,getCart) => async dispatch => {
         })
     }
 
+}
+export const getWishlistItems = () => async dispatch => {
+    try{
+        let config = {
+            headers: {
+                'x-access-token' : localStorage.getItem("token"),
+            }
+        };
+        const res = await userService.getCart('/get_wishlist_items',config)
+        let wishlistBookIds = [];
+        res.data.result.map(book => {
+            wishlistBookIds.push(book.product_id._id)
+        })        
+        dispatch({
+            type:WISHLIST_ITEMS,
+            payload: wishlistBookIds,
+        })
+    }
+    catch(e){
+        dispatch({
+            type: WISHLIST_ERROR,
+            payload: console.log(e),
+        })
+    }
 }
