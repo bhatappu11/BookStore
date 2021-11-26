@@ -22,6 +22,9 @@ class UserService {
     addToWishlist(url,data,config){
         return axiosService.postMethod(`${baseurl}${url}`,data,config);    
     }
+    getWishlist(url,config){
+        return axiosService.getMethod(`${baseurl}${url}`,config); 
+    }
 }
 
 export default UserService
