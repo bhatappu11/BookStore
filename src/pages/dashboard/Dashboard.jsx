@@ -15,7 +15,7 @@ import { ThemeProvider } from '@emotion/react';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useDispatch ,useSelector} from 'react-redux'
-import { addCartItems, getCartItems } from '../../store/actions/cartActions';
+import { addCartItems, getWishlistItems, getCartItems } from '../../store/actions/cartActions';
 
 const userService = new UserService();
   const theme = createTheme({
@@ -42,12 +42,17 @@ function Dashboard() {
     const [books, setBooks] = useState([]);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-    const [bookAdded, setBookAdded] =  useState([]);
+    // const [bookAddedWishlist, setBookAddedToWishlist] =  useState([]);
     const dispatch = useDispatch();
     const items = useSelector(state=>state);
+    const wishlist = useSelector(state=>state.wishlist);
+    console.log(wishlist);
     
     async function getCart()  {
         dispatch(getCartItems());
+     }
+     async function getWishlist()  {
+        dispatch(getWishlistItems());
      }
     const [page, setPage] = React.useState(1);
     const [booksPerPage, setBooksPerPage] = useState(8);
@@ -72,15 +77,35 @@ function Dashboard() {
             <Button fullWidth variant="contained" sx={{marginTop: '12px'}}> ADDED TO BAG </Button>
           )
         }
+        else if(wishlist.items.includes(book._id)){
+            return (
+                <Button fullWidth style={{marginTop: '12px',border: '1px solid',backgroundColor: '#ffffff',color: '#000000',cursor: 'pointer'}}>ADDED TO WISHLIST</Button>
+            )
+        }
         else {
           return (
             <div className="add-buttons">
                 <Button fullWidth onClick={()=>handleAddToBag(book)} style={{border: '1px solid',backgroundColor: '#A03037',color: '#f1f1f1',cursor: 'pointer',marginRight: '10px'}}>ADD TO BAG</Button>
-                <Button fullWidth style={{border: '1px solid',backgroundColor: '#ffffff',color: '#000000',cursor: 'pointer'}}>WISHLIST</Button>
+                <Button fullWidth onClick={()=>handleAddToWishlist(book)} style={{border: '1px solid',backgroundColor: '#ffffff',color: '#000000',cursor: 'pointer'}}>WISHLIST</Button>
             </div>)
         }
     
       }
+      const handleAddToWishlist = (book) => {
+        let config = {
+            headers: {
+                'x-access-token' : localStorage.getItem("token"),
+            }
+        };
+        userService.addToWishlist(`/add_wish_list/${book._id}`,{},config)
+        .then((res)=>{
+            console.log("Books added to wishlist");
+            getWishlist();
+        })
+        .catch((err)=>{
+            console.log(err);
+        });
+    }
  
     const handleAddToBag = (book) => {
         dispatch(addCartItems(book,getCart));
@@ -95,6 +120,7 @@ function Dashboard() {
         userService.displayBooks("/get/book",config)
         .then((res)=>{
             setBooks(res.data.result);
+            console.log(res.data.result);
             console.log("Books displayed");
         })
         .catch((err)=>{
@@ -103,8 +129,8 @@ function Dashboard() {
     }
     React.useEffect(()=>{
         getCart();
+        getWishlist();
     },[])
-
     React.useEffect(()=>{
         displayBooks();
    },[items]);
