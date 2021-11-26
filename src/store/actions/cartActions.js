@@ -60,7 +60,7 @@ export const getWishlistItems = () => async dispatch => {
                 'x-access-token' : localStorage.getItem("token"),
             }
         };
-        const res = await userService.getCart('/get_wishlist_items',config)
+        const res = await userService.getWishlist('/get_wishlist_items',config)
         let wishlistBookIds = [];
         res.data.result.map(book => {
             wishlistBookIds.push(book.product_id._id)
