@@ -15,7 +15,7 @@ import { ThemeProvider } from '@emotion/react';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useDispatch ,useSelector} from 'react-redux'
-import { addCartItems, getWishlistItems, getCartItems } from '../../store/actions/cartActions';
+import { getWishlistItems, getCartItems } from '../../store/actions/cartActions';
 
 const userService = new UserService();
   const theme = createTheme({
@@ -42,14 +42,12 @@ function Dashboard() {
     const [books, setBooks] = useState([]);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-    // const [bookAddedWishlist, setBookAddedToWishlist] =  useState([]);
     const dispatch = useDispatch();
-    const items = useSelector(state=>state);
+    const items = useSelector(state=>state.items);
     const wishlist = useSelector(state=>state.wishlist);
-    // console.log(wishlist);
     
     async function getCart()  {
-        dispatch(getCartItems());
+        dispatch(getCartItems('dashboard'));
      }
      async function getWishlist()  {
         dispatch(getWishlistItems());
@@ -71,8 +69,8 @@ function Dashboard() {
     const handleClose = () => {
         setAnchorEl(null);
     };    
-     const dynamicButton = (book) => {
-        if (items.items.items.includes(book._id)) {
+     const dynamicButton = (book) => {         
+        if (items.items.includes(book._id)) {
           return (   
               <div>           
             <Button fullWidth variant="contained" sx={{marginTop: '12px'}}> ADDED TO BAG </Button>
@@ -112,7 +110,19 @@ function Dashboard() {
     }
  
     const handleAddToBag = (book) => {
-        dispatch(addCartItems(book,getCart));
+        let config = {
+                headers: {
+                       'x-access-token' : localStorage.getItem("token"),
+                }
+            };
+        userService.addToCart(`/add_cart_item/${book._id}`,{},config)
+        .then((res)=>{
+            console.log("Books added to cart");
+            getCart();
+        })
+        .catch((err)=>{
+            console.log(err);
+        });
     };
             
     const displayBooks = () => {
