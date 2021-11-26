@@ -46,7 +46,7 @@ function Dashboard() {
     const dispatch = useDispatch();
     const items = useSelector(state=>state);
     const wishlist = useSelector(state=>state.wishlist);
-    console.log(wishlist);
+    // console.log(wishlist);
     
     async function getCart()  {
         dispatch(getCartItems());
@@ -73,13 +73,17 @@ function Dashboard() {
     };    
      const dynamicButton = (book) => {
         if (items.items.items.includes(book._id)) {
-          return (              
+          return (   
+              <div>           
             <Button fullWidth variant="contained" sx={{marginTop: '12px'}}> ADDED TO BAG </Button>
+            </div>
           )
         }
-        else if(wishlist.items.includes(book._id)){
+        else if(wishlist.wishlist.includes(book._id)){
             return (
+                <div>
                 <Button fullWidth style={{marginTop: '12px',border: '1px solid',backgroundColor: '#ffffff',color: '#000000',cursor: 'pointer'}}>ADDED TO WISHLIST</Button>
+                </div>
             )
         }
         else {
@@ -134,6 +138,9 @@ function Dashboard() {
     React.useEffect(()=>{
         displayBooks();
    },[items]);
+   React.useEffect(()=>{
+    displayBooks();
+},[wishlist]);
   
     return (
         <div>
