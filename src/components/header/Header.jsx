@@ -12,6 +12,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import Badge from '@mui/material/Badge';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import { useSelector} from 'react-redux'
+import { useNavigate } from 'react-router';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -52,6 +53,10 @@ const Search = styled('div')(({ theme }) => ({
 
 function Header() {
   const items = useSelector(state=>state);
+  const navigate = useNavigate();
+  const handleCart = () => {
+    navigate('/cart');
+  }
     return (
         <div>
             <Box sx={{ flexGrow: 1 }}>
@@ -83,7 +88,7 @@ function Header() {
                     </Box>
                     <Box sx={{marginRight: '15%'}}>
                       <Badge badgeContent={items.items.items.length}>
-                        <ShoppingCartOutlinedIcon sx={{color: '#f1f1f1',cursor: 'pointer'}}/>
+                        <ShoppingCartOutlinedIcon onClick={handleCart} sx={{color: '#f1f1f1',cursor: 'pointer'}}/>
                       </Badge>
                         <Typography sx={{fontSize: '14px'}} >Cart</Typography>
                     </Box>
