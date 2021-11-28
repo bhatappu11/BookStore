@@ -69,8 +69,12 @@ function Dashboard() {
     const handleClose = () => {
         setAnchorEl(null);
     };    
-     const dynamicButton = (book) => {         
-        if (items.items.includes(book._id)) {
+     const dynamicButton = (book) => {  
+        let bookIds = [];
+        items.items.map(ele => {
+            bookIds.push(ele.product_id._id)
+        })        
+        if (bookIds.includes(book._id)) {
           return (   
               <div>           
             <Button fullWidth variant="contained" sx={{marginTop: '12px'}}> ADDED TO BAG </Button>
