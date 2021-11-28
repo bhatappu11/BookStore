@@ -12,25 +12,25 @@ export const getCartItems = (mode) => async dispatch => {
             }
         };
         const res = await userService.getCart('/get_cart_items',config)
-        let bookIds = [];
-        res.data.result.map(book => {
-            bookIds.push(book.product_id._id)
-        })
-        switch(mode){
-            case 'dashboard':
-                dispatch( {
-                    type: CART_ITEMS,
-                    payload: bookIds,
-                })
-                break;
-            case 'cart':
+        // let bookIds = [];
+        // res.data.result.map(book => {
+        //     bookIds.push(book.product_id._id)
+        // })
+        // switch(mode){
+        //     case 'dashboard':
+        //         dispatch( {
+        //             type: CART_ITEMS,
+        //             payload: bookIds,
+        //         })
+        //         break;
+        //     case 'cart':
                 dispatch({
                     type: CART_ITEMS,
                     payload: res.data.result,
                 })
-                break;
-            default: return false;
-        }
+        //         break;
+        //     default: return false;
+        // }
         
     }
     catch(e){
