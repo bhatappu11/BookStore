@@ -13,6 +13,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { useForm, Controller } from "react-hook-form";
+import Fade from '@mui/material/Fade';
 
 
 function MyCart() {
@@ -23,10 +24,15 @@ function MyCart() {
     const [checked, setChecked] = React.useState(false);
     const [open, setOpenChecked] = React.useState(false);
     const [disabled,setDisabled] = useState(false);
+    const [buttonOpen, setButtonOpen] = React.useState(false);
+    const [continueOpen, setContinueOpen] = React.useState(false);
+
     const handlePlaceChange = () => {
+        setButtonOpen((prev)=>!prev);
         setChecked(true);
     };
     const onSubmit = data => {
+        setContinueOpen((prev)=>!prev);
         console.log(data);
         setDisabled(!disabled);
         setOpenChecked(true);
@@ -35,8 +41,8 @@ function MyCart() {
         <Box sx={{ width: '100%', height: '100%'}}>
           <p className="second-section-heading">Customer Details</p>
           <form onSubmit={handleSubmit(onSubmit)}>
-          <div style={{width: '70%'}}>
-            <div style={{display: 'flex',margin: '20px'}}>
+          <div className="customer-form">
+            <div className="text-fields" style={{display: 'flex',margin: '20px'}}>
             <Controller
                     name="name"
                     control={control}
@@ -63,7 +69,7 @@ function MyCart() {
                 )}
                   rules={{ required: 'Phone number required' }}/>
             </div>
-            <div style={{display: 'flex',margin: '20px'}}>
+            <div className="text-fields" style={{display: 'flex',margin: '20px'}}>
             <Controller
                     name="pincode"
                     control={control}
@@ -110,7 +116,7 @@ function MyCart() {
                 )}
                   rules={{ required: 'Address required' }}/>
             </div>
-            <div style={{display: 'flex',margin: '20px'}}>
+            <div className="text-fields" style={{display: 'flex',margin: '20px'}}>
                 <Controller
                     name="city"
                     control={control}
@@ -153,7 +159,7 @@ function MyCart() {
             </div>
           </div>
           <div className="place-order">
-                    <Button type="submit" checked={checked}variant="contained" sx={{width: '20%'}}>Continue</Button>
+          <Fade in={!continueOpen}><Button type="submit" checked={checked}variant="contained" sx={{width: '20%'}}>Continue</Button></Fade>
         </div>
         </form>
         </Box>
@@ -221,7 +227,7 @@ function MyCart() {
                         }   
                     </div>
                     <div className="place-order">
-                    <Button checked={checked} onClick={handlePlaceChange} variant="contained" sx={{width: '20%',}}>Place order</Button>
+                    <Fade in={!buttonOpen}><Button checked={checked} onClick={handlePlaceChange} variant="contained" sx={{width: '20%'}}>Place order</Button></Fade>
                     </div>
                 </div>
                 <div className="second-section">
