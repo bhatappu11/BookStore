@@ -22,7 +22,7 @@ const Search = styled('div')(({ theme }) => ({
     marginLeft: 0,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(8),
+      marginLeft: theme.spacing(2),
       width: 'auto',
     },
   }));
@@ -44,10 +44,10 @@ const Search = styled('div')(({ theme }) => ({
       // vertical padding + font size from searchIcon
       paddingLeft: `calc(1em + ${theme.spacing(4)})`,
       transition: theme.transitions.create('width'),
-      width: '100%',
+      width: '50%',
       [theme.breakpoints.up('md')]: {
         width: '550px',
-      },
+      }
     },
   }));
 
@@ -57,13 +57,16 @@ function Header() {
   const handleCart = () => {
     navigate('/cart');
   }
+  const handleLogo = () => {
+    navigate('/dashboard');
+  }
     return (
         <div>
             <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" sx={{backgroundColor: '#A03037'}}>
                 <Toolbar>
                     <Box sx={{marginLeft: '13%',display: 'flex'}}>
-                        <img src={logoimage}/>
+                        <img onClick={handleLogo} style={{marginRight: '3px',cursor: 'pointer'}} src={logoimage}/>
                         <Typography
                             variant="h6"
                             component="div"
