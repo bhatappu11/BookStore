@@ -76,3 +76,102 @@
     margin-left: 2%;
     padding-bottom: 5%;
 }
+.customer-form{
+    width: 70%;
+}
+
+@media only screen and (max-width: 1200px){
+    
+}
+@media only screen and (max-width: 800px){
+    
+}
+@media only screen and (max-width: 540px) {
+    .cart-container{
+        margin: 0;
+        .first-section{
+            border: none;
+        }
+        .second-section{
+            border: none;
+            margin: 0;
+            padding: 0;
+            width:100%;
+
+            .customer-form{
+                width: 100%;
+            }
+            .text-fields{
+                flex-direction: column;
+            }
+        }
+        .third-section{
+            border: none;
+        }
+        .place-order{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+    
+}
+@media only screen and (max-width: 450px) {
+    .cart-container{
+        margin: 0;
+        .first-section{
+            border: none;
+        }
+        .second-section{
+            border: none;
+            margin: 0;
+            padding: 0;
+            width:100%;
+
+            .customer-form{
+                width: 100%;
+            }
+            .text-fields{
+                flex-direction: column;
+            }
+        }
+        .third-section{
+            border: none;
+        }
+        .place-order{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+    
+}
+@media only screen and (max-width:360px) {
+    .cart-container{
+        margin: 0;
+        .first-section{
+            border: none;
+        }
+        .second-section{
+            border: none;
+            margin: 0;
+            padding: 0;
+            width:100%;
+
+            .customer-form{
+                width: 100%;
+            }
+            .text-fields{
+                flex-direction: column;
+            }
+        }
+        .third-section{
+            border: none;
+        }
+        .place-order{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
