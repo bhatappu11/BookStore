@@ -1,4 +1,4 @@
-import React from 'react'
+import React ,{useState}from 'react'
 import {useDispatch,useSelector} from 'react-redux'
 import {getCartItems} from '../../store/actions/cartActions'
 import './MyCart.scss'
@@ -12,57 +12,150 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import { useForm, Controller } from "react-hook-form";
 
 
 function MyCart() {
+    const { handleSubmit,control } = useForm();
     const dispatch = useDispatch();
     const items = useSelector(state=>state.items);
     console.log(items);
     const [checked, setChecked] = React.useState(false);
     const [open, setOpenChecked] = React.useState(false);
+    const [disabled,setDisabled] = useState(false);
     const handlePlaceChange = () => {
         setChecked(true);
     };
-    const handleContinueChange = () => {
+    const onSubmit = data => {
+        console.log(data);
+        setDisabled(!disabled);
         setOpenChecked(true);
-    };
+    }
     const content = (
         <Box sx={{ width: '100%', height: '100%'}}>
           <p className="second-section-heading">Customer Details</p>
+          <form onSubmit={handleSubmit(onSubmit)}>
           <div style={{width: '70%'}}>
             <div style={{display: 'flex',margin: '20px'}}>
-                <TextField fullWidth id="outlined-basic" label="Name" variant="outlined" sx={{marginRight: '10px'}} />
-                <TextField fullWidth id="outlined-basic" label="Phone Number" variant="outlined" />
+            <Controller
+                    name="name"
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { onChange, value }, fieldState: { error } }) => (
+                <TextField disabled={disabled} fullWidth id="outlined-basic" label="Name" variant="outlined" sx={{marginRight: '10px'}}
+                value={value}
+                onChange={onChange} 
+                error={!!error}
+                helperText={error ? error.message : ' '} />
+                )}
+                  rules={{ required: 'name required' }}
+            />
+            <Controller
+                    name="phone"
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { onChange, value }, fieldState: { error } }) => (
+                <TextField disabled={disabled} fullWidth id="outlined-basic" label="Phone Number" variant="outlined" 
+                value={value}
+                onChange={onChange} 
+                error={!!error}
+                helperText={error ? error.message : ' '} />
+                )}
+                  rules={{ required: 'Phone number required' }}/>
             </div>
             <div style={{display: 'flex',margin: '20px'}}>
-                <TextField fullWidth id="outlined-basic" label="Pincode" variant="outlined" sx={{marginRight: '10px'}}/>
-                <TextField fullWidth id="outlined-basic" label="Locality" variant="outlined" />
+            <Controller
+                    name="pincode"
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { onChange, value }, fieldState: { error } }) => (
+                <TextField disabled={disabled} fullWidth id="outlined-basic" label="Pincode" variant="outlined" sx={{marginRight: '10px'}}
+                value={value}
+                onChange={onChange} 
+                error={!!error}
+                helperText={error ? error.message : ' '} />
+                )}
+                  rules={{ required: 'Pincode required' }}/>
+                <Controller
+                    name="locality"
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { onChange, value }, fieldState: { error } }) => (
+                    <TextField disabled={disabled} fullWidth id="outlined-basic" label="Locality" variant="outlined" 
+                    value={value}
+                onChange={onChange} 
+                error={!!error}
+                helperText={error ? error.message : ' '} />
+                )}
+                  rules={{ required: 'locality required' }}/>
             </div>
             <div style={{margin: '20px'}}>
+                <Controller
+                    name="address"
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { onChange, value }, fieldState: { error } }) => (
                 <TextField
+                disabled={disabled}
                     fullWidth
                     id="outlined-multiline-static"
                     label="Address"
                     multiline
                     rows={4}
+                    value={value}
+                onChange={onChange} 
+                error={!!error}
+                helperText={error ? error.message : ' '} 
                 />
+                )}
+                  rules={{ required: 'Address required' }}/>
             </div>
             <div style={{display: 'flex',margin: '20px'}}>
-                <TextField fullWidth id="outlined-basic" label="City/Town" variant="outlined" sx={{marginRight: '10px'}}/>
-                <TextField fullWidth id="outlined-basic" label="Landmark" variant="outlined" />
+                <Controller
+                    name="city"
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { onChange, value }, fieldState: { error } }) => (
+                <TextField disabled={disabled} fullWidth id="outlined-basic" label="City/Town" variant="outlined" sx={{marginRight: '10px'}}
+                value={value}
+                onChange={onChange} 
+                    error={!!error}
+                    helperText={error ? error.message : ' '} />
+                )}
+                  rules={{ required: 'city required' }}/>
+                <Controller
+                    name="landmark"
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { onChange, value }, fieldState: { error } }) => (
+                    <TextField disabled={disabled} fullWidth id="outlined-basic" label="Landmark" variant="outlined" value={value}
+                    onChange={onChange} 
+                    error={!!error}
+                    helperText={error ? error.message : ' '} />
+                    )}
+                  rules={{ required: 'landmark required' }}/>
             </div>
             <div style={{margin: '20px'}}>
                 <FormLabel >Type</FormLabel>
-                <RadioGroup row aria-label="gender" name="row-radio-buttons-group">
-                    <FormControlLabel value="home" control={<Radio />} label="Home" sx={{marginRight: '14%' }} />
-                    <FormControlLabel value="work" control={<Radio />} label="Work" sx={{marginRight: '14%' }}/>
-                    <FormControlLabel value="other" control={<Radio />} label="Other" />
+                <Controller
+                    name="type"
+                    control={control}
+                    render={({ field: { onChange, value }, fieldState: { error } }) => (
+                <RadioGroup row aria-label="gender" name="row-radio-buttons-group" value={value} onChange={onChange} 
+                error={!!error}
+                helperText={error ? error.message : ' '}>
+                    <FormControlLabel disabled={disabled} value="home" control={<Radio />} label="Home" sx={{marginRight: '14%' }} select/>
+                    <FormControlLabel disabled={disabled} value="work" control={<Radio />} label="Work" sx={{marginRight: '14%' }}/>
+                    <FormControlLabel disabled={disabled} value="other" control={<Radio />} label="Other" />
                 </RadioGroup>
+                )}
+                rules={{ required: true }}/>
             </div>
           </div>
           <div className="place-order">
-                    <Button checked={checked} onClick={handleContinueChange} variant="contained" sx={{width: '20%',}}>Continue</Button>
+                    <Button type="submit" checked={checked}variant="contained" sx={{width: '20%'}}>Continue</Button>
         </div>
+        </form>
         </Box>
     );
     const summary = (
