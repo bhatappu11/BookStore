@@ -12,6 +12,7 @@ import Divider from '@mui/material/Divider';
 import { useForm, Controller } from "react-hook-form";
 import UserService from '../../services/UserService';
 import { useNavigate } from 'react-router';
+import auth from '../../auth';
 
 const userService = new UserService();
 
@@ -38,7 +39,9 @@ function Login() {
                 console.log(res);
                 console.log("Login successful");
                 localStorage.setItem("token",res.data.result.accessToken);
-                navigate('/dashboard');                
+                auth.login(()=>{
+                  navigate('/dashboard');  
+              })              
             })
             .catch((err)=>{
                 console.log(err);
