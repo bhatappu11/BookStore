@@ -34,6 +34,9 @@ class UserService {
     quantityDecrement(url,data,config){
         return axiosService.putMethod(`${baseurl}${url}`,data,config);
     }
+    customerDetails(url,data,config){
+        return axiosService.putMethod(`${baseurl}${url}`,data,config);
+    }
 }
 
 export default UserService
