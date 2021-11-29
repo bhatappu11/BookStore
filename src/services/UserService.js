@@ -37,6 +37,9 @@ class UserService {
     customerDetails(url,data,config){
         return axiosService.putMethod(`${baseurl}${url}`,data,config);
     }
+    addOrder(url,data,config){
+        return axiosService.postMethod(`${baseurl}${url}`,data,config);    
+    }
 }
 
 export default UserService
