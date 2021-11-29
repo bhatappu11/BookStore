@@ -14,6 +14,9 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { useForm, Controller } from "react-hook-form";
 import Fade from '@mui/material/Fade';
+import UserService from '../../services/UserService';
+
+const userService = new UserService();
 
 
 function MyCart() {
@@ -187,7 +190,21 @@ function MyCart() {
                     </div>
         </Box>
     );
-
+    const handleRemove = (book) => {
+        let config = {
+            headers: {
+                'x-access-token' : localStorage.getItem("token"),
+            }
+        };
+        userService.removeCartItem(`/remove_cart_item/${book._id}`,config)
+        .then((res)=>{
+            console.log("Book removed from cart");
+            getCart();
+        })
+        .catch((err)=>{
+            console.log(err);
+        });
+    }
 
     async function getCart()  {
         dispatch(getCartItems('cart'));
@@ -218,7 +235,7 @@ function MyCart() {
                                             <Avatar sx={{width: 50,height: 30,color: "black",borderRadius: '3px',fontSize: "15px",background: "#FAFAFA 0% 0% no-repeat padding-box",border: "1px solid #DBDBDB",marginTop: '8px'}}
                                             variant="square">{books.quantityToBuy}</Avatar>
                                             <button className="cart-buttons">+</button>
-                                            <Button sx={{color: 'black',textTransform: 'none'}}>Remove</Button>
+                                            <Button onClick={()=>handleRemove(books)} sx={{color: 'black',textTransform: 'none'}}>Remove</Button>
                                         </div>
                                     </div>
                                 </div>
