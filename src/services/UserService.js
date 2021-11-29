@@ -25,6 +25,9 @@ class UserService {
     getWishlist(url,config){
         return axiosService.getMethod(`${baseurl}${url}`,config); 
     }
+    removeCartItem(url,config){
+        return axiosService.deleteMethod(`${baseurl}${url}`,config);
+    }
 }
 
 export default UserService
