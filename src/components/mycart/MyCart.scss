@@ -41,6 +41,9 @@
     font-size: large;
     cursor: pointer;
 }
+.cart-buttons:disabled {
+    opacity: 0.5;
+}
 .place-order{
     display: flex;
     align-items: right;
