@@ -7,6 +7,9 @@ class AxiosService {
     getMethod(url,config){
         return axios.get(url,config)
     }
+    deleteMethod(url,config){
+        return axios.delete(url,config)
+    }
 }
 
 export default AxiosService
