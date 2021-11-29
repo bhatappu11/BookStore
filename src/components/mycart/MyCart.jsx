@@ -34,6 +34,34 @@ function MyCart() {
         setButtonOpen((prev)=>!prev);
         setChecked(true);
     };
+    const handleCheckout = () => {
+        let config = {
+            headers: {
+                'x-access-token' : localStorage.getItem("token"),
+            }
+        };
+        let myOrder = [];
+        items.items.map((ele)=>{
+            let data = {
+                "product_id": ele.product_id._id,
+                "product_name": ele.product_id.bookName,
+                "product_quantity": ele.quantityToBuy,
+                "product_price": ele.product_id.price
+            }
+            myOrder.push(data);
+            handleRemove(ele);
+        })
+        let datas = {
+            "orders": myOrder
+        }
+        userService.addOrder('/add/order',datas,config)
+        .then((res)=>{
+            console.log("order placed");
+        })
+        .catch((err)=>{
+            console.log(err);
+        });
+    }
     const onSubmit = data => {
         console.log(data);
         let config = {
@@ -206,7 +234,7 @@ function MyCart() {
                         }   
                     </div>
                     <div className="place-order">
-                    <Button checked={checked} onClick={handlePlaceChange} variant="contained" sx={{width: '20%',}}>Checkout</Button>
+                    <Button checked={checked} onClick={handleCheckout} variant="contained" sx={{width: '20%',}}>Checkout</Button>
                     </div>
         </Box>
     );
@@ -300,7 +328,7 @@ function MyCart() {
                         }   
                     </div>
                     <div className="place-order">
-                    <Fade in={!buttonOpen}><Button checked={checked} onClick={handlePlaceChange} variant="contained" sx={{width: '20%'}}>Place order</Button></Fade>
+                    <Fade in={!buttonOpen}><Button checked={checked}  disabled={items.items.length == 0 ? true : false}  onClick={handlePlaceChange} variant="contained" sx={{width: '20%'}}>Place order</Button></Fade>
                     </div>
                 </div>
                 <div className="second-section">
