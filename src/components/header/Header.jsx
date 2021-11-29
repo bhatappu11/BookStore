@@ -39,7 +39,7 @@ const Search = styled('div')(({ theme }) => ({
   const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
     '& .MuiInputBase-input': {
-        color: '#9D9D9D',
+        color: '#000000',
       padding: theme.spacing(1, 1, 1, 0),
       // vertical padding + font size from searchIcon
       paddingLeft: `calc(1em + ${theme.spacing(4)})`,
@@ -51,7 +51,7 @@ const Search = styled('div')(({ theme }) => ({
     },
   }));
 
-function Header() {
+function Header(props) {
   const items = useSelector(state=>state);
   const navigate = useNavigate();
   const handleCart = () => {
@@ -82,6 +82,7 @@ function Header() {
                     <StyledInputBase
                     placeholder="Search…"
                     inputProps={{ 'aria-label': 'search' }}
+                    onChange={(e)=> props.setSearchWord(e.target.value)}
                     />
                 </Search>
                 <Box sx={{ flexGrow: 1}} />
