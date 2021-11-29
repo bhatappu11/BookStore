@@ -35,10 +35,30 @@ function MyCart() {
         setChecked(true);
     };
     const onSubmit = data => {
-        setContinueOpen((prev)=>!prev);
         console.log(data);
-        setDisabled(!disabled);
-        setOpenChecked(true);
+        let config = {
+            headers: {
+                'x-access-token' : localStorage.getItem("token"),
+            }
+        };
+        let details = {
+            "addressType": data.type,
+            "fullAddress": data.address,
+            "city": data.city,
+            "state": data.state
+        }  
+        userService.customerDetails('/edit_user',details,config)
+        .then((res)=>{
+            console.log("customer details added");
+            setContinueOpen((prev)=>!prev);
+            console.log(data);
+            setDisabled(!disabled);
+            setOpenChecked(true);
+            getCart();
+        })
+        .catch((err)=>{
+            console.log(err);
+        });
     }
     const content = (
         <Box sx={{ width: '100%', height: '100%'}}>
@@ -133,16 +153,16 @@ function MyCart() {
                 )}
                   rules={{ required: 'city required' }}/>
                 <Controller
-                    name="landmark"
+                    name="state"
                     control={control}
                     defaultValue=""
                     render={({ field: { onChange, value }, fieldState: { error } }) => (
-                    <TextField disabled={disabled} fullWidth id="outlined-basic" label="Landmark" variant="outlined" value={value}
+                    <TextField disabled={disabled} fullWidth id="outlined-basic" label="State" variant="outlined" value={value}
                     onChange={onChange} 
                     error={!!error}
                     helperText={error ? error.message : ' '} />
                     )}
-                  rules={{ required: 'landmark required' }}/>
+                  rules={{ required: 'state required' }}/>
             </div>
             <div style={{margin: '20px'}}>
                 <FormLabel >Type</FormLabel>
@@ -153,9 +173,9 @@ function MyCart() {
                 <RadioGroup row aria-label="gender" name="row-radio-buttons-group" value={value} onChange={onChange} 
                 error={!!error}
                 helperText={error ? error.message : ' '}>
-                    <FormControlLabel disabled={disabled} value="home" control={<Radio />} label="Home" sx={{marginRight: '14%' }} select/>
-                    <FormControlLabel disabled={disabled} value="work" control={<Radio />} label="Work" sx={{marginRight: '14%' }}/>
-                    <FormControlLabel disabled={disabled} value="other" control={<Radio />} label="Other" />
+                    <FormControlLabel disabled={disabled} value="Home" control={<Radio />} label="Home" sx={{marginRight: '14%' }} select/>
+                    <FormControlLabel disabled={disabled} value="Office" control={<Radio />} label="Work" sx={{marginRight: '14%' }}/>
+                    <FormControlLabel disabled={disabled} value="Other" control={<Radio />} label="Other" />
                 </RadioGroup>
                 )}
                 rules={{ required: true }}/>
