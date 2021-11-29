@@ -178,7 +178,7 @@ function MyCart() {
                                     <div className="book-description">
                                         <p className="book-title">{books.product_id.bookName}</p>
                                         <p className="book-author">{books.product_id.author}</p>
-                                        <p className="book-price">Rs. {books.product_id.price}</p>
+                                        <p className="book-price">Rs. {books.product_id.price*books.quantityToBuy}</p>
                                     </div>
                                 </div>
                             </div>
@@ -190,6 +190,42 @@ function MyCart() {
                     </div>
         </Box>
     );
+    const handleIncrement = (book) => {
+        let config = {
+            headers: {
+                'x-access-token' : localStorage.getItem("token"),
+            }
+        };
+        let data = {
+            "quantityToBuy": book.quantityToBuy + 1
+        }  
+        userService.quantityIncrement(`/cart_item_quantity/${book._id}`,data,config)
+        .then((res)=>{
+            console.log("Quantity of book increased");
+            getCart();
+        })
+        .catch((err)=>{
+            console.log(err);
+        });
+    }
+    const handleDecrement = (book) => {
+        let config = {
+            headers: {
+                'x-access-token' : localStorage.getItem("token"),
+            }
+        };
+        let data = {
+            "quantityToBuy": book.quantityToBuy - 1
+        }  
+        userService.quantityDecrement(`/cart_item_quantity/${book._id}`,data,config)
+        .then((res)=>{
+            console.log("Quantity of book decreased");
+            getCart();
+        })
+        .catch((err)=>{
+            console.log(err);
+        });
+    }
     const handleRemove = (book) => {
         let config = {
             headers: {
@@ -229,12 +265,12 @@ function MyCart() {
                                     <div className="book-description">
                                         <p className="book-title">{books.product_id.bookName}</p>
                                         <p className="book-author">{books.product_id.author}</p>
-                                        <p className="book-price">Rs. {books.product_id.price}</p>
+                                        <p className="book-price">Rs. {books.product_id.price*books.quantityToBuy}</p>
                                         <div className="counter" style={{display: 'flex'}}>
-                                            <button className="cart-buttons">-</button>
+                                            <button disabled={books.quantityToBuy == 1 ? true : false} onClick={()=>handleDecrement(books)} className="cart-buttons">-</button>
                                             <Avatar sx={{width: 50,height: 30,color: "black",borderRadius: '3px',fontSize: "15px",background: "#FAFAFA 0% 0% no-repeat padding-box",border: "1px solid #DBDBDB",marginTop: '8px'}}
                                             variant="square">{books.quantityToBuy}</Avatar>
-                                            <button className="cart-buttons">+</button>
+                                            <button onClick={()=>handleIncrement(books)} className="cart-buttons">+</button>
                                             <Button onClick={()=>handleRemove(books)} sx={{color: 'black',textTransform: 'none'}}>Remove</Button>
                                         </div>
                                     </div>
