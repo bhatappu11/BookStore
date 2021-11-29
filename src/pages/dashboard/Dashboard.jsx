@@ -62,7 +62,6 @@ function Dashboard() {
     const indexOfFirstBook = indexOfLastBook - booksPerPage;
     const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook);
 
-
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -145,6 +144,33 @@ function Dashboard() {
             console.log(err);
         });
     }
+    const sortLowToHigh = () => {
+        books.sort((a,b) => {
+            return a.price - b.price;
+        });
+    }
+    const sortHighToLow = () => {
+        books.sort((a,b) => {
+            return b.price - a.price;
+        });
+    }
+    const sortAToZ = () => {
+        books.sort((a,b) => {
+            let textA = a.bookName.toUpperCase();
+            let textB = b.bookName.toUpperCase();
+            return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+        });
+    }
+    const sortZToA = () => {
+        books.sort((a,b) => {
+            let textA = a.bookName.toUpperCase();
+            let textB = b.bookName.toUpperCase();
+            return (textA > textB) ? -1 : (textA < textB) ? 1 : 0;
+        });
+    }
+    React.useEffect(()=>{
+    },[books]);
+
     React.useEffect(()=>{
         getCart();
         getWishlist();
@@ -175,10 +201,10 @@ function Dashboard() {
                             open={open}
                             onClose={handleClose}
                         >
-                            <MenuItem value={10}>Price: Low to High</MenuItem>
-                            <MenuItem value={20}>Price: High to Low</MenuItem>
-                            <MenuItem value={30}>A - Z</MenuItem>
-                            <MenuItem value={40}>Z - A</MenuItem>
+                            <MenuItem onClick={sortLowToHigh}>Price: Low to High</MenuItem>
+                            <MenuItem onClick={sortHighToLow}>Price: High to Low</MenuItem>
+                            <MenuItem onClick={sortAToZ}>A - Z</MenuItem>
+                            <MenuItem onClick={sortZToA}>Z - A</MenuItem>
                                             
                         </Menu>
                     </div>
