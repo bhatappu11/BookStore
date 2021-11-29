@@ -28,6 +28,12 @@ class UserService {
     removeCartItem(url,config){
         return axiosService.deleteMethod(`${baseurl}${url}`,config);
     }
+    quantityIncrement(url,data,config){
+        return axiosService.putMethod(`${baseurl}${url}`,data,config);
+    }
+    quantityDecrement(url,data,config){
+        return axiosService.putMethod(`${baseurl}${url}`,data,config);
+    }
 }
 
 export default UserService
