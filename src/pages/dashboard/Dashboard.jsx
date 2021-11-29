@@ -45,6 +45,7 @@ function Dashboard() {
     const dispatch = useDispatch();
     const items = useSelector(state=>state.items);
     const wishlist = useSelector(state=>state.wishlist);
+    const [searchWord,setSearchWord] = React.useState('');
     
     async function getCart()  {
         dispatch(getCartItems('dashboard'));
@@ -61,6 +62,35 @@ function Dashboard() {
     const indexOfLastBook = page * booksPerPage;
     const indexOfFirstBook = indexOfLastBook - booksPerPage;
     const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook);
+
+    const display = (currentBooks) => {
+        return (
+            <Box>
+                <Grid container spacing={{ xs: 2, md: 4 }} columns={{ xs: 4, sm: 6, md: 8 }}>
+                    {
+                    currentBooks.map((book)=>(
+                        <Grid item xs={6} sm={3} md={2} >
+                            <div className="all-books">
+                            <Box  sx={{display:'flex', flexDirection:'column',backgroundColor: '#F5F5F5',minHeight: '320px'}}>                        
+                                <div className="alchemist">
+                                    <img src={bookimage} />
+                                </div>  
+                                <div className="book-details">
+                                    <div className="book-title">{book.bookName}</div>
+                                    <div className="book-author">by {book.author}</div>
+                                    <div className="book-price">Rs {book.price}</div>                                
+                                <div>
+                                    {dynamicButton(book)}
+                                </div>
+                                </div>
+                            </Box>
+                            </div>
+                        </Grid>
+                    ))}
+                </Grid>
+                </Box>
+        )
+    }
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -170,21 +200,20 @@ function Dashboard() {
     }
     React.useEffect(()=>{
     },[books]);
-
     React.useEffect(()=>{
         getCart();
         getWishlist();
     },[])
     React.useEffect(()=>{
         displayBooks();
-   },[items]);
-   React.useEffect(()=>{
+    },[items]);
+    React.useEffect(()=>{
     displayBooks();
-},[wishlist]);
+    },[wishlist]);
   
     return (
         <div>
-            <Header />
+            <Header setSearchWord={setSearchWord}/>
             <Box sx={{marginLeft: '15%',marginRight: '15%',minHeight: '90vh'}}>
                 <Box sx={{display: 'flex',justifyContent: 'space-between',marginTop: '2%',marginBottom: '2%'}}>
                     <p className="books">Books <span style={{color: 'grey',fontSize: '18px'}}>({books.length})</span></p>
@@ -209,34 +238,11 @@ function Dashboard() {
                         </Menu>
                     </div>
                 </Box>
-                <Box>
-                <Grid container spacing={{ xs: 2, md: 4 }} columns={{ xs: 4, sm: 6, md: 8 }}>
-                    {
-                    currentBooks.map((book)=>(
-                        <Grid item xs={6} sm={3} md={2} >
-                            <div className="all-books">
-                            <Box  sx={{display:'flex', flexDirection:'column',backgroundColor: '#F5F5F5',minHeight: '320px'}}>                        
-                                <div className="alchemist">
-                                    <img src={bookimage} />
-                                </div>  
-                                <div className="book-details">
-                                    <div className="book-title">{book.bookName}</div>
-                                    <div className="book-author">by {book.author}</div>
-                                    <div className="book-price">Rs {book.price}</div>                                
-                                <div>
-                                    {dynamicButton(book)}
-                                </div>
-                                </div>
-                            </Box>
-                            </div>
-                        </Grid>
-                    ))}
-                </Grid>
-                </Box>
+                <div>{ searchWord.length !=0 ? display(currentBooks.filter(ele => (ele.bookName.toLowerCase().includes(searchWord.toLowerCase()) || (ele.author.toLowerCase().includes(searchWord.toLowerCase())) ))) : display(currentBooks)}</div>
             </Box>
             <ThemeProvider theme={theme}>
             <Box sx={{display: 'flex',justifyContent: 'center', margin: '25px'}}>
-                <Pagination count={Math.ceil(books.length / 12)} page={page} shape="rounded" onChange={handlePageChange} color="myColor"
+                <Pagination count={Math.ceil(books.length / booksPerPage)} page={page} shape="rounded" onChange={handlePageChange} color="myColor"
                     renderItem={(item) => (
                     <PaginationItem
                     components={{previous: a,next: b }}
