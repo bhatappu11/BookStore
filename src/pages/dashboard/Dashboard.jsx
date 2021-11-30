@@ -102,7 +102,11 @@ function Dashboard() {
         let bookIds = [];
         items.items.map(ele => {
             bookIds.push(ele.product_id._id)
-        })        
+        })  
+        let wishlistBookIds = [];
+            wishlist.wishlist.map(book => {
+            wishlistBookIds.push(book.product_id._id)
+        })      
         if (bookIds.includes(book._id)) {
           return (   
               <div>           
@@ -110,7 +114,7 @@ function Dashboard() {
             </div>
           )
         }
-        else if(wishlist.wishlist.includes(book._id)){
+        else if(wishlistBookIds.includes(book._id)){
             return (
                 <div>
                 <Button fullWidth style={{marginTop: '12px',border: '1px solid',backgroundColor: '#ffffff',color: '#000000',cursor: 'pointer'}}>ADDED TO WISHLIST</Button>
@@ -214,7 +218,7 @@ function Dashboard() {
     return (
         <div>
             <Header setSearchWord={setSearchWord}/>
-            <Box sx={{marginLeft: '15%',marginRight: '15%',minHeight: '90vh'}}>
+            <Box sx={{marginLeft: '15%',marginRight: '15%',minHeight: '90vh',marginTop: '100px'}}>
                 <Box sx={{display: 'flex',justifyContent: 'space-between',marginTop: '2%',marginBottom: '2%'}}>
                     <p className="books">Books <span style={{color: 'grey',fontSize: '18px'}}>({books.length})</span></p>
                     <div>
