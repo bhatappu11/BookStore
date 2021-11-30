@@ -37,6 +37,7 @@ function Login() {
             userService.SignIn("/login",data)
             .then((res)=>{
                 console.log(res);
+                localStorage.setItem("userName",data.email);
                 console.log("Login successful");
                 localStorage.setItem("token",res.data.result.accessToken);
                 auth.login(()=>{
