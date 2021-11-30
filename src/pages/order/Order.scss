@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
+
+.order-container{
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 100px;
+    min-height: 80vh;
+    align-items: center;
+    .order-placed{
+        font: normal normal bold 25px/30px Lato;
+        letter-spacing: 0px;
+        color: #333232;
+        text-transform: capitalize;
+
+    }
+    .order-details{
+        margin-top: 20px;
+        text-align: center;
+        font: normal normal normal 18px/22px Lato;
+        letter-spacing: 0px;
+        color: #333232;
+        margin-bottom: 40px;
+    }
+    .upper{
+        height: 150px;
+        width: 220px;
+    }
+    .lower{
+        height: 100px;
+        width: 150px;
+    }
+    .order-table{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    table{
+        border: 1px solid #dcdcdc;
+        width: 751px;
+        border-collapse: collapse;
+    }
+    td {    
+        min-width: 223px;
+        border: 1px solid #dcdcdc;
+        border-collapse: collapse;
+        padding: 30px;
+        color: #333232;
+    }
+    th {
+        background-color: #fafafa;
+        padding: 20px;
+        color: #333232;
+    }
+}
