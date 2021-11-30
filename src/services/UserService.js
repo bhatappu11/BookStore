@@ -40,6 +40,9 @@ class UserService {
     addOrder(url,data,config){
         return axiosService.postMethod(`${baseurl}${url}`,data,config);    
     }
+    removeWishlistItem(url,config){
+        return axiosService.deleteMethod(`${baseurl}${url}`,config);
+    }
 }
 
 export default UserService
