@@ -4,6 +4,7 @@ import {BrowserRouter as Router,Routes, Route} from 'react-router-dom';
 import Dashboard from './pages/dashboard/Dashboard';
 import Cart from './pages/cart/Cart';
 import Wishlist from './pages/wishlist/Wishlist';
+import Order from './pages/order/Order';
 import { ProtectedRoute } from './ProtectedRoute';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route exact path="/dashboard" element={<Dashboard />}></Route>
           <Route exact path="/cart" element={<Cart />}></Route>
           <Route exact path="/wishlist" element={<Wishlist />}></Route>
+          <Route exact path="/order" element={<Order />}></Route>
         </Route>
       </Routes>
     </div>
