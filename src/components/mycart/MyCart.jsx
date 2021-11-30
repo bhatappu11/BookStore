@@ -15,11 +15,13 @@ import FormLabel from '@mui/material/FormLabel';
 import { useForm, Controller } from "react-hook-form";
 import Fade from '@mui/material/Fade';
 import UserService from '../../services/UserService';
+import { useNavigate } from 'react-router'
 
 const userService = new UserService();
 
 
 function MyCart() {
+    const navigate = useNavigate();
     const { handleSubmit,control } = useForm();
     const dispatch = useDispatch();
     const items = useSelector(state=>state.items);
@@ -57,6 +59,7 @@ function MyCart() {
         userService.addOrder('/add/order',datas,config)
         .then((res)=>{
             console.log("order placed");
+            navigate("/order");
         })
         .catch((err)=>{
             console.log(err);
