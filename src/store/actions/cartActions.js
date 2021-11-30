@@ -50,13 +50,13 @@ export const getWishlistItems = () => async dispatch => {
             }
         };
         const res = await userService.getWishlist('/get_wishlist_items',config)
-        let wishlistBookIds = [];
-        res.data.result.map(book => {
-            wishlistBookIds.push(book.product_id._id)
-        })        
+        // let wishlistBookIds = [];
+        // res.data.result.map(book => {
+        //     wishlistBookIds.push(book.product_id._id)
+        // })        
         dispatch({
             type:WISHLIST_ITEMS,
-            payload: wishlistBookIds,
+            payload: res.data.result,
         })
     }
     catch(e){
