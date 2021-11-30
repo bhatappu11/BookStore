@@ -13,6 +13,11 @@ import Badge from '@mui/material/Badge';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import { useSelector} from 'react-redux'
 import { useNavigate } from 'react-router';
+import auth from '../../auth';
+import Popover from '@mui/material/Popover';
+import Button from '@mui/material/Button';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import './Header.scss'
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -52,21 +57,39 @@ const Search = styled('div')(({ theme }) => ({
   }));
 
 function Header(props) {
-  const items = useSelector(state=>state);
+  const items = useSelector(state=>state.items);
   const navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const openPopover = Boolean(anchorEl);
+  const email = localStorage.getItem("userName")
   const handleCart = () => {
     navigate('/cart');
   }
   const handleLogo = () => {
     navigate('/dashboard');
   }
+  const handleLogoutPopover = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+  const handleWishlist = () => {
+    navigate("/wishlist");
+  }
+  const handleLogout = () => {
+    localStorage.clear();
+    auth.logout(()=>{
+      navigate("/");
+    })
+  }
     return (
         <div>
             <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" sx={{backgroundColor: '#A03037'}}>
+            <AppBar position="fixed" sx={{backgroundColor: '#A03037'}}>
                 <Toolbar>
                     <Box sx={{marginLeft: '13%',display: 'flex'}}>
-                        <img onClick={handleLogo} style={{marginRight: '3px',cursor: 'pointer'}} src={logoimage}/>
+                        <img onClick={handleLogo} style={{marginRight: '6px',cursor: 'pointer'}} src={logoimage}/>
                         <Typography
                             variant="h6"
                             component="div"
@@ -87,11 +110,11 @@ function Header(props) {
                 </Search>
                 <Box sx={{ flexGrow: 1}} />
                     <Box sx={{marginRight: '1%'}}>
-                        <PersonOutlineOutlinedIcon sx={{color: '#f1f1f1',cursor: 'pointer'}}/>
-                        <Typography sx={{fontSize: '14px'}}>Account</Typography>
+                        <PersonOutlineOutlinedIcon onClick={handleLogoutPopover} sx={{color: '#f1f1f1',cursor: 'pointer'}}/>
+                        <Typography sx={{fontSize: '14px'}}>{email.substring(0, email.lastIndexOf("@"))}</Typography>
                     </Box>
                     <Box sx={{marginRight: '15%'}}>
-                      <Badge badgeContent={items.items.items.length}>
+                      <Badge badgeContent={items.items.length}>
                         <ShoppingCartOutlinedIcon onClick={handleCart} sx={{color: '#f1f1f1',cursor: 'pointer'}}/>
                       </Badge>
                         <Typography sx={{fontSize: '14px'}} >Cart</Typography>
@@ -99,6 +122,28 @@ function Header(props) {
                 </Toolbar>
             </AppBar>
             </Box>
+            <Popover
+                open={openPopover}
+                anchorEl={anchorEl}
+                onClose={handlePopoverClose}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'right',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+              >
+                <Typography sx={{display: 'flex',flexDirection:'column', paddingLeft:'10px',paddingRight: '10px',paddingTop: '20px', textAlign: 'center' }}>
+                <span className="popover-heading">Hello {email.substring(0, email.lastIndexOf("@"))},</span>
+                  <div className="wishlist">
+                    <FavoriteBorderOutlinedIcon onClick={handleWishlist} fontSize="small" sx={{borderColor: 'grey',marginRight: '10px', cursor: 'pointer',marginTop:'10px'}}/>
+                    <span className="wishlist-text">My Wishlist</span>
+                  </div>
+                  <Button fullWidth onClick={handleLogout} variant="outlined" sx={{color: '#A03037',borderColor: '#A03037',marginBottom: '20px',marginTop: '10px'}} >Logout</Button>
+                </Typography>
+            </Popover>
         </div>
     )
 }
