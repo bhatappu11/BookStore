@@ -10,21 +10,38 @@ import Button from '@mui/material/Button';
 import { useForm, Controller } from "react-hook-form";
 import UserService from '../../services/UserService';
 import { useNavigate } from 'react-router';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 const userService = new UserService();
 
+  
+
 function SignUp() {
-        const navigate = useNavigate();
-      const { handleSubmit,control } = useForm();
-      const onSubmit = data => {
+    const [openSnackbar, setSnackbarOpen] = React.useState(false);
+    const [message, setMessage] = React.useState("");
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+    }
+
+        setSnackbarOpen(false);
+    };
+    const navigate = useNavigate();
+    const { handleSubmit,control } = useForm();
+    const onSubmit = data => {
+        setSnackbarOpen(true);
           console.log(data);
           console.log("validation successful");
                 userService.SignUp("/registration",data)
                 .then(()=>{
                     console.log("successfully registered");
+                    setMessage("Registration successful");
                     navigate('/')
                 })
                 .catch((err)=>{
                     console.log(err);
+                    setMessage("Registration failed");
                 });
         };
   const [passwordShown, setPasswordShown] = useState(false);
@@ -108,6 +125,12 @@ function SignUp() {
               />
                 <Button fullWidth type="submit" variant="contained" style={{textTransform: 'none',background: "#A03037 0% 0% no-repeat padding-box",marginTop: 10}}>Signup</Button>
                 </form>
+                <Snackbar open={openSnackbar} autoHideDuration={4000} onClose={handleClose} message={message}  
+                    anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                }}>              
+                </Snackbar>
             </Box>
         </div>
     )
