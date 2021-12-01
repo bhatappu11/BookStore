@@ -1,8 +1,8 @@
 import AxiosService from "./AxiosService";
 const axiosService = new AxiosService();
 
-let baseurl = 'https://new-bookstore-backend.herokuapp.com/bookstore_user'
-
+// let baseurl = 'https://new-bookstore-backend.herokuapp.com/bookstore_user'
+let baseurl = 'https://bookstore.incubation.bridgelabz.com/bookstore_user'
 class UserService {
     SignUp(url,data){
         return axiosService.postMethod(`${baseurl}${url}`,data);
