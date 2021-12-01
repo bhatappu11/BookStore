@@ -5,19 +5,24 @@ import {getCartItems,getWishlistItems } from '../../store/actions/cartActions'
 import bookimage from '../../assets/Image 12@2x.png'
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { Button } from '@mui/material'
-
+import CircularProgress from '@mui/material/CircularProgress';
 import UserService from '../../services/UserService';
+import bookgif from '../../assets/1481.gif'
 
 const userService = new UserService();
 
 function MyWishlist() {
     const wishlistItems = useSelector(state=>state.wishlist);
     const dispatch = useDispatch();
+    const [loading,setLoading] = React.useState(false);
     async function getCart()  {
         dispatch(getCartItems('dashboard'));
      }
      async function getWishlist()  {
         dispatch(getWishlistItems());
+        setTimeout(()=>{
+            setLoading(false)},2000
+        );
      }
      const handleMove = (book) => {
         handleRemoveWishlist(book);
@@ -52,12 +57,14 @@ function MyWishlist() {
         });
      }
     React.useEffect(()=>{
+        setLoading(true);
         getCart();
         getWishlist();
     },[])
 
     return (
         <div>
+            {loading ? <div className="preloaders"><img src={bookgif}/></div> :
             <div className="wishlist-container">
                 <div className="wishlist-heading">
                     <p className="first-section-heading">My Wishlist ({wishlistItems.wishlist.length})</p>
@@ -90,6 +97,7 @@ function MyWishlist() {
                         }   
                 </div>
             </div>
+        }
         </div>
     )
 }
