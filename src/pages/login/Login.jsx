@@ -12,6 +12,7 @@ import Divider from '@mui/material/Divider';
 import { useForm, Controller } from "react-hook-form";
 import UserService from '../../services/UserService';
 import { useNavigate } from 'react-router';
+import Snackbar from '@mui/material/Snackbar';
 import auth from '../../auth';
 
 const userService = new UserService();
@@ -28,10 +29,21 @@ const Root = styled('div')(({ theme }) => ({
   
 
 function Login() {
+
+  const [openSnackbar, setSnackbarOpen] = React.useState(false);
+  const [message, setMessage] = React.useState("");
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+        return;
+  }
+
+  setSnackbarOpen(false);
+  };
     const navigate = useNavigate();
       const { handleSubmit,control } = useForm();
   
       const onSubmit = data => {
+        setSnackbarOpen(true);
             console.log(data);
             console.log("validation successful");
             userService.SignIn("/login",data)
@@ -40,11 +52,14 @@ function Login() {
                 localStorage.setItem("userName",data.email);
                 console.log("Login successful");
                 localStorage.setItem("token",res.data.result.accessToken);
+                setMessage("Login successful");
+                setTimeout(()=>{
                 auth.login(()=>{
                   navigate('/dashboard');  
-              })              
+              }) },2000);             
             })
             .catch((err)=>{
+                setMessage("Login failed");
                 console.log(err);
             });
       
@@ -112,6 +127,12 @@ function Login() {
                 <Button fullWidth variant="contained" style={{textTransform: 'none',color: '#0A0102',background: "#F5F5F5 0% 0% no-repeat padding-box"}}>Google</Button>
                 </Box>
                 </form>
+                <Snackbar open={openSnackbar} autoHideDuration={4000} onClose={handleClose} message={message}  
+                    anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                }}>              
+                </Snackbar>
             </Box>
             
         </div>
