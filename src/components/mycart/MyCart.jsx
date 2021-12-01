@@ -16,6 +16,8 @@ import { useForm, Controller } from "react-hook-form";
 import Fade from '@mui/material/Fade';
 import UserService from '../../services/UserService';
 import { useNavigate } from 'react-router'
+import CircularProgress from '@mui/material/CircularProgress';
+import bookgif from '../../assets/1481.gif'
 
 const userService = new UserService();
 
@@ -31,6 +33,7 @@ function MyCart() {
     const [disabled,setDisabled] = useState(false);
     const [buttonOpen, setButtonOpen] = React.useState(false);
     const [continueOpen, setContinueOpen] = React.useState(false);
+    const [loading,setLoading] = React.useState(false);
 
     const handlePlaceChange = () => {
         setButtonOpen((prev)=>!prev);
@@ -222,7 +225,7 @@ function MyCart() {
         <Box sx={{ width: '100%', height: '100%'}}>
           <p className="third-section-heading">Order Summary</p>
           <div className="first-section-books">
-                        { items.items.map((books)=>(
+                        { items.items.length !== 0 ? items.items.map((books)=>(
                             <div>
                                 <div style={{display: 'flex'}}>
                                     <img className="bookimage" src={bookimage} />
@@ -234,7 +237,7 @@ function MyCart() {
                                 </div>
                             </div>
                         ))
-                        }   
+                        : <h5>Cart is empty</h5>}   
                     </div>
                     <div className="place-order">
                     <Button checked={checked} onClick={handleCheckout} variant="contained" sx={{width: '20%',}}>Checkout</Button>
@@ -295,14 +298,19 @@ function MyCart() {
 
     async function getCart()  {
         dispatch(getCartItems('cart'));
+        setTimeout(()=>{
+            setLoading(false)},2000
+        );
      }
 
     
     React.useEffect(()=>{
+        setLoading(true);
         getCart();
     },[])
     return (
         <div>
+            {loading ? <div className="preloaders"><img src={bookgif}/></div> :
             <div className="cart-container">
                 <div className="first-section">
                     <div className="first-section-heading">
@@ -349,6 +357,7 @@ function MyCart() {
                     </div>
                 </div>
            </div>
+        }
         </div>
     )
 }
