@@ -16,6 +16,9 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useDispatch ,useSelector} from 'react-redux'
 import { getWishlistItems, getCartItems } from '../../store/actions/cartActions';
+import CircularProgress from '@mui/material/CircularProgress';
+import bookgif from '../../assets/1481.gif'
+
 
 const userService = new UserService();
   const theme = createTheme({
@@ -46,6 +49,7 @@ function Dashboard() {
     const items = useSelector(state=>state.items);
     const wishlist = useSelector(state=>state.wishlist);
     const [searchWord,setSearchWord] = React.useState('');
+    const [loading,setLoading] = React.useState(false);
     
     async function getCart()  {
         dispatch(getCartItems('dashboard'));
@@ -170,11 +174,17 @@ function Dashboard() {
         };
         userService.displayBooks("/get/book",config)
         .then((res)=>{
+            setTimeout(()=>{
+                setLoading(false)},2000
+            );
             setBooks(res.data.result);
             console.log(res.data.result);
             console.log("Books displayed");
         })
         .catch((err)=>{
+            setTimeout(()=>{
+                setLoading(false)},2000
+            );
             console.log(err);
         });
     }
@@ -209,14 +219,18 @@ function Dashboard() {
         getWishlist();
     },[])
     React.useEffect(()=>{
+        setLoading(true);
         displayBooks();
     },[items]);
     React.useEffect(()=>{
+        setLoading(true);
     displayBooks();
     },[wishlist]);
   
     return (
-        <div>
+        <div className="dashboard-container">            
+            {loading ? <div className="preloaders"><img src={bookgif}/></div> : 
+            <div>         
             <Header setSearchWord={setSearchWord}/>
             <Box sx={{marginLeft: '15%',marginRight: '15%',minHeight: '90vh',marginTop: '100px'}}>
                 <Box sx={{display: 'flex',justifyContent: 'space-between',marginTop: '2%',marginBottom: '2%'}}>
@@ -256,7 +270,8 @@ function Dashboard() {
                 />
             </Box>
             </ThemeProvider>
-            <Footer />
+            <Footer/>
+            </div> }
         </div>
     )
 }
