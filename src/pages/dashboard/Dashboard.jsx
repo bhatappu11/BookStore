@@ -16,8 +16,12 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useDispatch ,useSelector} from 'react-redux'
 import { getWishlistItems, getCartItems } from '../../store/actions/cartActions';
+import bookgif from '../../assets/loader.gif'
+import Popper from '@mui/material/Popper';
+import Fade from '@mui/material/Fade';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
-import bookgif from '../../assets/1481.gif'
 
 
 const userService = new UserService();
@@ -50,6 +54,13 @@ function Dashboard() {
     const wishlist = useSelector(state=>state.wishlist);
     const [searchWord,setSearchWord] = React.useState('');
     const [loading,setLoading] = React.useState(false);
+    const [bookDetail, setBookDetail] = React.useState(null);
+    const [openPopper, setOpenPopper] = React.useState(false);
+
+    const handleHover = () => (event) => {
+        setBookDetail(event.currentTarget);
+        setOpenPopper((prev) => !prev);
+    };
     
     async function getCart()  {
         dispatch(getCartItems('dashboard'));
@@ -77,12 +88,12 @@ function Dashboard() {
                             <div className="all-books">
                             <Box  sx={{display:'flex', flexDirection:'column',backgroundColor: '#F5F5F5',minHeight: '320px'}}>                        
                                 <div className="alchemist">
-                                    <img src={bookimage} />
+                                    <img onMouseEnter={handleHover()} onMouseLeave={handleHover()} src={bookimage} />
                                 </div>  
                                 <div className="book-details">
-                                    <div className="book-title">{book.bookName}</div>
-                                    <div className="book-author">by {book.author}</div>
-                                    <div className="book-price">Rs {book.price}</div>                                
+                                    <div onMouseEnter={handleHover()} onMouseLeave={handleHover()} className="book-title">{book.bookName}</div>
+                                    <div onMouseEnter={handleHover()} onMouseLeave={handleHover()} className="book-author">by {book.author}</div>
+                                    <div onMouseEnter={handleHover()} onMouseLeave={handleHover()} className="book-price">Rs {book.price}</div>                                
                                 <div>
                                     {dynamicButton(book)}
                                 </div>
@@ -228,8 +239,8 @@ function Dashboard() {
     },[wishlist]);
   
     return (
-        <div className="dashboard-container">            
-            {loading ? <div className="preloaders"><img src={bookgif}/></div> : 
+        <div>            
+            {loading && <div className="preloaders"><img src={bookgif}/></div> }
             <div>         
             <Header setSearchWord={setSearchWord}/>
             <Box sx={{marginLeft: '15%',marginRight: '15%',minHeight: '90vh',marginTop: '100px'}}>
@@ -271,7 +282,21 @@ function Dashboard() {
             </Box>
             </ThemeProvider>
             <Footer/>
-            </div> }
+            <Popper open={openPopper} anchorEl={bookDetail} placement={'right-start'} transition>
+                {({ TransitionProps }) => (
+                <Fade {...TransitionProps} timeout={350}>
+                    <Paper sx={{width:'30%'}}>
+                    <span className="book-detail">Book Detail</span>
+                    <Typography sx={{ p: 2,color: 'gray'}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In enim enim, interdum vel pulvinar sit amet, posuere a purus. Duis in lorem vel lacus aliquam placerat et sit amet dui. Integer ullamcorper tortor leo. Quisque a mollis nibh. In eros tellus, luctus et laoreet et, gravida eget risus. Nam molestie accumsan velit vitae molestie. Maecenas dapibus diam eu dui venenatis porttitor. Curabitur feugiat dolor et odio eleifend egestas ac vitae nisi. In pulvinar faucibus neque, at venenatis risus tincidunt non.
+
+                        Nulla tristique turpis ac erat maximus, nec sodales massa sagittis. Nullam ornare, ante id laoreet convallis, nulla velit molestie ante, pharetra aliquam ex orci commodo quam. Nunc vestibulum dapibus arcu nec volutpat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean mattis arcu at dui tempus pellentesque. Morbi vel nulla massa. In dignissim, ligula a sodales lacinia, arcu nulla elementum quam, vel sollicitudin ligula velit finibus odio. Donec eget laoreet eros, vel suscipit sapien. Nulla facilisi. Etiam ac tempor sem.
+
+                     </Typography>
+                    </Paper>
+                </Fade>
+                )}
+            </Popper>
+            </div> 
         </div>
     )
 }
