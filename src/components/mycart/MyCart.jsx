@@ -17,7 +17,8 @@ import Fade from '@mui/material/Fade';
 import UserService from '../../services/UserService';
 import { useNavigate } from 'react-router'
 import CircularProgress from '@mui/material/CircularProgress';
-import bookgif from '../../assets/1481.gif'
+import bookgif from '../../assets/loader.gif'
+
 
 const userService = new UserService();
 
@@ -310,7 +311,8 @@ function MyCart() {
     },[])
     return (
         <div>
-            {loading ? <div className="preloaders"><img src={bookgif}/></div> :
+            {loading && <div className="preloaders"><img src={bookgif}/></div> }
+            <div>
             <div className="cart-container">
                 <div className="first-section">
                     <div className="first-section-heading">
@@ -357,7 +359,7 @@ function MyCart() {
                     </div>
                 </div>
            </div>
-        }
+           </div>
         </div>
     )
 }

@@ -7,7 +7,7 @@ import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined
 import { Button } from '@mui/material'
 import CircularProgress from '@mui/material/CircularProgress';
 import UserService from '../../services/UserService';
-import bookgif from '../../assets/1481.gif'
+import bookgif from '../../assets/loader.gif'
 
 const userService = new UserService();
 
@@ -64,7 +64,7 @@ function MyWishlist() {
 
     return (
         <div>
-            {loading ? <div className="preloaders"><img src={bookgif}/></div> :
+            {loading && <div className="preloaders"><img src={bookgif}/></div>}
             <div className="wishlist-container">
                 <div className="wishlist-heading">
                     <p className="first-section-heading">My Wishlist ({wishlistItems.wishlist.length})</p>
@@ -97,7 +97,6 @@ function MyWishlist() {
                         }   
                 </div>
             </div>
-        }
         </div>
     )
 }
