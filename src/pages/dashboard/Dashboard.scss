@@ -2,16 +2,26 @@
 
 
 .preloaders{
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
     z-index: 2300;
-    min-height: 100vh;
-    background-color: #f1c5c5;
+    opacity: 0.5;
+    height: 100%;
+    width: 100%;
+    background-color: #BCB4B4;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 .books{
     font-size: 30px;
+}
+.book-detail{
+    font-family: Roboto;
+    font-weight: bolder;
+    font-size: large;
+    padding: 15px;
 }
 .all-books{
     border: 1px solid #E2E2E2;
