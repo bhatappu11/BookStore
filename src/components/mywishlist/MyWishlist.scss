@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
 
 .wishlist-container{
-    min-height: 84  vh;
+    min-height: 86vh;
     margin-left: 15%;
     margin-right: 15%;
     .wishlist-heading{
@@ -64,8 +64,10 @@
             flex-direction: column;
         }
         .wishlist-buttons{
-            margin-top: 5px;
-            margin-left: 120px;
+            margin-top: 3px;
+            display: flex;
+            justify-content: right;
+            align-items: right;
         }
     }
     
@@ -77,8 +79,10 @@
             flex-direction: column;
         }
         .wishlist-buttons{
-            margin-top: 5px;
-            margin-left: 100px;
+            margin-top: 3px;
+            display: flex;
+            justify-content: right;
+            align-items: right;
         }
 
     }
