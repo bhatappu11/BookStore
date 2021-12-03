@@ -7,7 +7,7 @@
     min-height: 80vh;
     align-items: center;
     .order-placed{
-        font: normal normal bold 25px/30px Lato;
+        font: normal normal bold 22px/30px Lato;
         letter-spacing: 0px;
         color: #333232;
         text-transform: capitalize;
@@ -57,7 +57,7 @@
         min-height: 88vh;
     }
     .order-placed{
-        font: normal normal bold 40px/45px Lato;
+        font: normal normal bold 38px/45px Lato;
         letter-spacing: 0px;
         color: #333232;
         text-transform: capitalize;
@@ -66,7 +66,7 @@
     .order-details{
         margin-top: 20px;
         text-align: center;
-        font: normal normal normal 35px/40px Lato;
+        font: normal normal normal 32px/40px Lato;
         letter-spacing: 0px;
         color: #333232;
         margin-bottom: 40px;
@@ -115,12 +115,23 @@
     th{
         padding: 1px;
     }
-    
+    .order-placed{
+        font-size: 10px;
+    }
+    .order-details{
+        font-size: 5px;
+    }
 }
 @media only screen and (max-width:360px) {
     .order-container{
         margin: 0;
         margin-top: 90px;
+    }
+    .order-placed{
+        font-size: 10px;
+    }
+    .order-details{
+        font-size: 5px;
     }
     table{
         height: 90%;
