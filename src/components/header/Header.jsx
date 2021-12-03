@@ -111,13 +111,17 @@ function Header(props) {
                 <Box sx={{ flexGrow: 1}} />
                     <Box sx={{marginRight: '1%'}}>
                         <PersonOutlineOutlinedIcon onClick={handleLogoutPopover} sx={{color: '#f1f1f1',cursor: 'pointer'}}/>
-                        <Typography sx={{fontSize: '14px'}}>{email.substring(0, email.lastIndexOf("@"))}</Typography>
+                        <div>
+                        <span className="username">{email.substring(0, email.lastIndexOf("@"))}</span>
+                        </div>
                     </Box>
                     <Box sx={{marginRight: '15%'}}>
                       <Badge badgeContent={items.items.length}>
                         <ShoppingCartOutlinedIcon onClick={handleCart} sx={{color: '#f1f1f1',cursor: 'pointer'}}/>
                       </Badge>
-                        <Typography sx={{fontSize: '14px'}} >Cart</Typography>
+                      <div>
+                        <span className="cart-label">cart</span>
+                      </div>
                     </Box>
                 </Toolbar>
             </AppBar>
