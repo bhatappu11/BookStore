@@ -139,8 +139,8 @@ function Dashboard() {
         else {
           return (
             <div className="add-buttons">
-                <Button fullWidth onClick={()=>handleAddToBag(book)} style={{border: '1px solid',backgroundColor: '#A03037',color: '#f1f1f1',cursor: 'pointer',marginRight: '10px'}}>ADD TO BAG</Button>
-                <Button fullWidth onClick={()=>handleAddToWishlist(book)} style={{border: '1px solid',backgroundColor: '#ffffff',color: '#000000',cursor: 'pointer'}}>WISHLIST</Button>
+                <Button fullWidth onClick={()=>handleAddToBag(book)} style={{border: '1px solid',backgroundColor: '#A03037',color: '#f1f1f1',cursor: 'pointer',marginRight: '10px',fontSize: '0.75rem'}}>ADD TO BAG</Button>
+                <Button fullWidth onClick={()=>handleAddToWishlist(book)} style={{border: '1px solid',backgroundColor: '#ffffff',color: '#000000',cursor: 'pointer',fontSize: '0.75rem'}}>WISHLIST</Button>
             </div>)
         }
     
@@ -245,10 +245,10 @@ function Dashboard() {
             <Header setSearchWord={setSearchWord}/>
             <Box sx={{marginLeft: '15%',marginRight: '15%',minHeight: '90vh',marginTop: '100px'}}>
                 <Box sx={{display: 'flex',justifyContent: 'space-between',marginTop: '2%',marginBottom: '2%'}}>
-                    <p className="books">Books <span style={{color: 'grey',fontSize: '18px'}}>({books.length})</span></p>
+                    <p className="books">Books <span style={{color: 'grey',fontSize: '16px'}}>({books.length})</span></p>
                     <div>
                     <Button
-                        sx={{border: '1px solid',color: 'black',borderColor: 'black',marginTop: '10%'}}
+                        sx={{border: '1px solid',color: 'black',borderColor: 'black',marginTop: '10%',fontSize: '0.75rem'}}
                             onClick={handleClick}
                             endIcon={<KeyboardArrowDownIcon />}
                         >
