@@ -217,7 +217,7 @@ function MyCart() {
             </div>
           </div>
           <div className="place-order">
-          <Fade in={!continueOpen}><Button type="submit" checked={checked}variant="contained" sx={{width: '20%'}}>Continue</Button></Fade>
+          <Fade in={!continueOpen}><Button type="submit" checked={checked}variant="contained" sx={{minWidth: '20%',fontSize: '0.8rem',marginRight: '1%'}}>Continue</Button></Fade>
         </div>
         </form>
         </Box>
@@ -241,7 +241,7 @@ function MyCart() {
                         : <h5>Cart is empty</h5>}   
                     </div>
                     <div className="place-order">
-                    <Button checked={checked} onClick={handleCheckout} variant="contained" sx={{width: '20%',}}>Checkout</Button>
+                    <Button checked={checked} onClick={handleCheckout} variant="contained" sx={{minWidth: '20%',fontSize: '0.8rem'}}>Checkout</Button>
                     </div>
         </Box>
     );
@@ -341,7 +341,7 @@ function MyCart() {
                         }   
                     </div>
                     <div className="place-order">
-                    <Fade in={!buttonOpen}><Button checked={checked}  disabled={items.items.length == 0 ? true : false}  onClick={handlePlaceChange} variant="contained" sx={{width: '20%'}}>Place order</Button></Fade>
+                    <Fade in={!buttonOpen}><Button checked={checked}  disabled={items.items.length == 0 ? true : false}  onClick={handlePlaceChange} variant="contained" sx={{minWidth: '20%',fontSize: '0.8rem'}}>Place order</Button></Fade>
                     </div>
                 </div>
                 <div className="second-section">
