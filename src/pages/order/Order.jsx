@@ -44,7 +44,7 @@ function Order() {
                     </table>
                 </div>   
                 <div>
-                <Button onClick={() => { navigate('/dashboard') }} style={{marginTop:"50px", padding:"10px 60px"}} variant="contained">Continue Shopping</Button>
+                <Button onClick={() => { navigate('/dashboard') }} style={{marginTop:"50px", padding:"10px 60px",marginBottom: '10px',minWidth:'20%'}} variant="contained">Continue Shopping</Button>
                 </div>     
             </div>
             <Footer />
